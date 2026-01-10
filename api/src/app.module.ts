@@ -4,9 +4,26 @@ import { AppService } from './app.service';
 import { AuthModule } from './framework/authentication/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './framework/authentication/jwt-auth.guard';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot({
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      type: 'postgres',
+      autoLoadEntities: true,
+      synchronize: true, // ⚠️ só em DEV
+    }),
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
