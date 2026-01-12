@@ -27,6 +27,7 @@ export class AuthenticateService {
       throw new UnauthorizedException('Credenciais inválidas');
     }
     const payload = {
+      userId: user.id,
       email: email,
     };
 

@@ -4,12 +4,12 @@ import { RegisterService } from 'src/domains/domain/services/register/register.s
 import { RegisterDto } from 'src/gateways/http/dtos/register/register.dto';
 import { Public } from 'src/infrastructure/decorators/public.decorator';
 
-@Controller('/auth')
+@Controller('/auth/register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
   @Public()
-  @Post('/register')
+  @Post()
   @ApiOperation({ summary: 'Cadastro de usuário' })
   @ApiResponse({ status: 201 })
   async execute(@Body() body: RegisterDto) {
