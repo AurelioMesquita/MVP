@@ -23,7 +23,6 @@ export class ChapterService {
     userId: string,
   ): Promise<ChapterDto> {
     const book = await this.booksRepository.findById(bookId);
-    console.log(book);
     if (!book || book.user.id !== userId) {
       throw new UnauthorizedException('Livro não encontrado');
     }

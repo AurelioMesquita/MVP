@@ -18,7 +18,6 @@ export class ChapterController {
     @Body() dto: ChapterDto,
     @Req() req,
   ) {
-    console.log('chegou aqui ', bookId);
     return this.chapterService.create(dto, bookId, req.user.userId);
   }
 }
