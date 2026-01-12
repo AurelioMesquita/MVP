@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './framework/authentication/jwt-auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import entities from './domains/domain/model-entities';
 
 @Module({
   imports: [
@@ -19,8 +20,8 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       type: 'postgres',
-      autoLoadEntities: true,
-      synchronize: true, // ⚠️ só em DEV
+      entities: [...entities],
+      synchronize: true,
     }),
     AuthModule,
   ],
