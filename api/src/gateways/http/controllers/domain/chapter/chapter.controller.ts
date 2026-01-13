@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/framework/authentication/jwt-auth.guard';
 import { ChapterDto } from 'src/gateways/http/dtos/chapter/chapter.dto';
 import { ChapterService } from 'src/domains/domain/services/chapters/chapter.service';
 
-@Controller(`/books/:bookId/chapters`)
+@Controller('/books/:bookId/chapters')
 @UseGuards(JwtAuthGuard)
 export class ChapterController {
   constructor(private readonly chapterService: ChapterService) {}
@@ -18,6 +18,7 @@ export class ChapterController {
     @Body() dto: ChapterDto,
     @Req() req,
   ) {
+    console.log(req.user);
     return this.chapterService.create(dto, bookId, req.user.userId);
   }
 }

@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChapterGateway } from './chapter.gateway';
+import { ChapterGateway, CreateChapterInput } from './chapter.gateway';
 import { Chapter } from '../../model-entities/chapter.entity';
 
 @Injectable()
@@ -18,8 +18,14 @@ export class ChapterPersistence implements ChapterGateway {
     return this.repo.findOne({ where: { book: { id: bookId }, position } });
   }
 
-  createChapter(data: Partial<Chapter>): Promise<Chapter> {
-    const chapter = this.repo.create(data);
+  createChapter(data: CreateChapterInput): Promise<Chapter> {
+    console.log('data', data);
+    const chapter = this.repo.create({
+      title: data.title,
+      content: data.content,
+      position: data.position,
+      book: { id: data.bookId },
+    });
     return this.repo.save(chapter);
   }
 }
