@@ -15,8 +15,24 @@ export class BooksPersistence implements BooksGateway {
     return this.repo.findOne({ where: { title, user: { id: userId } } });
   }
 
-  findById(id: string): Promise<Book | null> {
-    return this.repo.findOne({ where: { id }, relations: ['user'] });
+  findByIdAndUser(
+    id: string,
+    userId: string,
+    includeChapters = false,
+  ): Promise<Book | null> {
+    return this.repo.findOne({
+      where: { id, user: { id: userId } },
+      relations: includeChapters ? ['chapters', 'user'] : ['user'],
+    });
+  }
+
+  listByUser(userId: string): Promise<Book[] | null> {
+    return this.repo.find({
+      where: { user: { id: userId } },
+      order: {
+        created_at: 'DESC',
+      },
+    });
   }
 
   createBook(data: Partial<Book>): Promise<Book> {
